@@ -33,7 +33,8 @@ function Context:line(axis, length)
     self:setpos(old_pos)
 end
 
-function Context:compile(fn)
+function Context:draw(compiled, transform)
+    -- TODO
 end
 
 function mtscad.create_context(origin)
@@ -43,4 +44,8 @@ function mtscad.create_context(origin)
         nodename = "air"
     }
     return setmetatable(self, Context_mt)
+end
+
+function mtscad.compile(fn)
+    -- TODO
 end

@@ -1,9 +1,16 @@
 
+local compiled_line = mtscad.compile(function(ctx)
+    ctx:line("x", 10)
+end)
+
 local function test_code(ctx)
     ctx:set_nodename("default:stone")
     ctx:line("x", 10)
     ctx:line("y", 10)
     ctx:line("z", 10)
+
+    ctx:translate({ x=10 })
+    ctx:draw(compiled_line, { rotate = { axis="y", degrees=90 }})
 end
 
 minetest.register_chatcommand("test", {
