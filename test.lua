@@ -2,24 +2,24 @@
 local function rot_test(ctx)
     ctx
     :with({ name="wool:red" })
-    :cube(10,0,0)
+    :cube(10,1,1)
     :with({ name="wool:blue" })
     :rotate(0,90,0)
-    :cube(10,0,0)
+    :cube(10,1,1)
     :with({ name="wool:green" })
     :rotate(0,90,0)
-    :cube(10,0,0)
+    :cube(10,1,1)
     :with({ name="wool:yellow" })
     :rotate(0,90,0)
-    :cube(10,0,0)
+    :cube(10,1,1)
 end
 
 local function test_code(ctx)
     ctx
     :with({ name="default:stone" })
-    :cube(10, 0, 0)
-    :cube(0, 10, 0)
-    :cube(0, 0, 10)
+    :cube(10, 1, 1)
+    :cube(1, 10, 1)
+    :cube(1, 1, 10)
 
     ctx
     :translate(10, 10, 10)

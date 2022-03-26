@@ -32,7 +32,7 @@ end
 
 function Context:cube(x, y, z)
     print("cube", dump(self))
-    local pos2 = vector.add(self.pos, {x=x, y=y, z=z})
+    local pos2 = vector.add(self.pos, {x=x-1, y=y-1, z=z-1})
     for xi=self.pos.x,pos2.x do
         for yi=self.pos.y,pos2.y do
             for zi=self.pos.z,pos2.z do
