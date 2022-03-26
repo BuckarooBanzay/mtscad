@@ -38,7 +38,8 @@ function Context:cube(x, y, z)
             for zi=self.pos.z,pos2.z do
                 local ipos = { x=xi, y=yi, z=zi }
                 local tpos = mtscad.transform_pos(self.pos, ipos, self.rotation)
-                minetest.set_node(tpos, self.node)
+                local tnode = mtscad.transform_node(self.node, self.rotation)
+                minetest.set_node(tpos, tnode)
             end
         end
     end
