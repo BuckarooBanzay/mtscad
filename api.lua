@@ -9,7 +9,7 @@ function Context:translate(x, y, z)
         z = z or 0
     }
     -- transformed position
-    local tpos = mtscad.transform_pos(self.pos, opos, self.rotation)
+    local tpos = mtscad.transform_pos(self.pos, vector.add(opos, self.pos), self.rotation)
     local ctx = self:clone()
     ctx.pos = tpos
     return ctx
@@ -31,6 +31,7 @@ function Context:execute(fn)
 end
 
 function Context:cube(x, y, z)
+    print("cube", dump(self))
     local pos2 = vector.add(self.pos, {x=x, y=y, z=z})
     for xi=self.pos.x,pos2.x do
         for yi=self.pos.y,pos2.y do
@@ -78,27 +79,3 @@ function mtscad.create_context(pos, rotation, node)
     return setmetatable(self, Context_mt)
 end
 
-local function flip_pos(rel_pos, max, axis)
-	rel_pos[axis] = max[axis] - rel_pos[axis]
-end
-
-local function transpose_pos(rel_pos, axis1, axis2)
-	rel_pos[axis1], rel_pos[axis2] = rel_pos[axis2], rel_pos[axis1]
-end
-
-function mtscad.transform_pos(origin, pos, rotation)
-    -- TODO: verify max-pos
-    local rel_pos = vector.subtract(pos, origin)
-    if rotation.y == 90 then
-        flip_pos(rel_pos, rel_pos, "z")
-		transpose_pos(rel_pos, "x", "z")
-    elseif rotation.y == 180 then
-        flip_pos(rel_pos, rel_pos, "x")
-        flip_pos(rel_pos, rel_pos, "z")
-    elseif rotation.y == 270 then
-        flip_pos(rel_pos, rel_pos, "x")
-        transpose_pos(rel_pos, "x", "z")
-    end
-    -- TODO
-    return pos
-end
