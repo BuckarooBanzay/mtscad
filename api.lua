@@ -1,51 +1,48 @@
 local Context = {}
 local Context_mt = { __index = Context }
 
-function Context:setpos(p)
-    self.pos = p
-end
-
-function Context:translate(o)
-    o.x = o.x or 0
-    o.y = o.y or 0
-    o.z = o.z or 0
-    self.pos = vector.add(self.pos, o)
-end
-
-function Context:set_nodename(nn)
-    self.nodename = nn
-end
-
-function Context:setnode(name, param2)
-    minetest.set_node(self.pos, {
-        name = name or self.nodename,
-        param2 = param2
+function Context:translate(x, y, z)
+    local newpos = vector.add(self.pos, {
+        x = x or 0,
+        y = y or 0,
+        z = z or 0
     })
+    local ctx = self:clone()
+    ctx.pos = newpos
+    return ctx
 end
 
-function Context:line(axis, length)
-    local old_pos = vector.copy(self.pos)
-    for _=0,length do
-        self:setnode()
-        self:translate({ [axis] = 1 })
-        self:setnode()
+function Context:with(node)
+    self.node = node
+    return self
+end
+
+function Context:set()
+    minetest.set_node(self.pos, self.node)
+    return self
+end
+
+function Context:cube(x, y, z)
+    local pos2 = vector.add(self.pos, {x=x, y=y, z=z})
+    for xi=self.pos.x,pos2.x do
+        for yi=self.pos.y,pos2.y do
+            for zi=self.pos.z,pos2.z do
+                minetest.set_node({ x=xi, y=yi, z=zi }, self.node)
+            end
+        end
     end
-    self:setpos(old_pos)
+    return self
 end
 
-function Context:draw(compiled, transform)
-    -- TODO
+function Context:clone()
+    return mtscad.create_context(self.pos, self.rotation, self.node)
 end
 
-function mtscad.create_context(origin)
+function mtscad.create_context(pos, rotation, node)
     local self = {
-        origin = origin,
-        pos = vector.copy(origin),
-        nodename = "air"
+        pos = pos and vector.copy(pos) or vector.zero(),
+        rotation = rotation and vector.copy(rotation) or vector.zero(),
+        node = node or { name="air" }
     }
     return setmetatable(self, Context_mt)
-end
-
-function mtscad.compile(fn)
-    -- TODO
 end

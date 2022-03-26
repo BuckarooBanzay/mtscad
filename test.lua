@@ -1,16 +1,15 @@
 
-local compiled_line = mtscad.compile(function(ctx)
-    ctx:line("x", 10)
-end)
-
 local function test_code(ctx)
-    ctx:set_nodename("default:stone")
-    ctx:line("x", 10)
-    ctx:line("y", 10)
-    ctx:line("z", 10)
+    ctx
+    :with({ name="default:stone" })
+    :translate(10,10,10)
+    :set()
 
-    ctx:translate({ x=10 })
-    ctx:draw(compiled_line, { rotate = { axis="y", degrees=90 }})
+    ctx
+    :with({ name="default:stone" })
+    :cube(10, 0, 0)
+    :cube(0, 10, 0)
+    :cube(0, 0, 10)
 end
 
 minetest.register_chatcommand("test", {
@@ -21,3 +20,18 @@ minetest.register_chatcommand("test", {
         test_code(ctx)
     end
 })
+
+--[[
+ctx
+:translate(0, 0, 0)
+:rotate(0, 0, 0)
+:cube(0, 10, 0)
+
+ctx
+:translate(0, 0, 0)
+:rotate(0, 0, 0)
+:apply(function(ctx)
+    ctx:cube(0, 10, 0)
+    ctx:cube(0, 0, 10)
+end)
+--]]
