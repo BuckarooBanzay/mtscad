@@ -30,8 +30,43 @@ function Context:execute(fn)
     return self
 end
 
+local slope_param2 = {
+    ["1,1,0"] = 3,
+    ["1,-1,0"] = 21,
+    ["0,1,1"] = 2,
+    ["0,-1,1"] = 22,
+    ["-1,1,0"] = 1,
+    ["-1,-1,0"] = 23,
+    ["0,1,-1"] = 0,
+    ["0,-1,-1"] = 20
+}
+
+local function format_pos(p)
+    return p.x .. "," .. p.y .. "," .. p.z
+end
+
+local function get_stairsplus_nodename(name, stairtype)
+    --[[
+    "moreblocks:slope_stone"
+    "moreblocks:stair_stone"
+    "default:stone"
+    --]]
+end
+
+function Context:slope(dir)
+    local ctx = self:clone()
+    ctx.node.param2 = slope_param2[format_pos(dir)]
+    return ctx
+end
+
+function Context:set_node()
+    print("set_node", dump(self))
+    local tnode = mtscad.transform_node(self.node, self.rotation)
+    minetest.set_node(self.pos, tnode)
+    return self
+end
+
 function Context:cube(x, y, z)
-    print("cube", dump(self))
     local pos2 = vector.add(self.pos, {x=x-1, y=y-1, z=z-1})
     for xi=self.pos.x,pos2.x do
         for yi=self.pos.y,pos2.y do
@@ -79,4 +114,3 @@ function mtscad.create_context(pos, rotation, node)
     }
     return setmetatable(self, Context_mt)
 end
-

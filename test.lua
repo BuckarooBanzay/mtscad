@@ -12,6 +12,10 @@ local function rot_test(ctx)
     :with({ name="wool:yellow" })
     :rotate(0,90,0)
     :cube(10,1,1)
+    :translate(10,0,0)
+    :with({ name="moreblocks:slope_stone" })
+    :slope({ x=1, y=1, z=0 })
+    :set_node()
 end
 
 local function test_code(ctx)
