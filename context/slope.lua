@@ -1,0 +1,31 @@
+
+
+local slope_param2 = {
+    ["1,1,0"] = 3,
+    ["1,-1,0"] = 21,
+    ["0,1,1"] = 2,
+    ["0,-1,1"] = 22,
+    ["-1,1,0"] = 1,
+    ["-1,-1,0"] = 23,
+    ["0,1,-1"] = 0,
+    ["0,-1,-1"] = 20
+}
+
+local function format_pos(p)
+    return p.x .. "," .. p.y .. "," .. p.z
+end
+
+local function get_stairsplus_nodename(name, stairtype)
+    --[[
+    "moreblocks:slope_stone"
+    "moreblocks:stair_stone"
+    "default:stone"
+    --]]
+end
+
+function mtscad.Context:slope(dir)
+    local ctx = self:clone()
+    ctx.node.param2 = slope_param2[format_pos(dir)]
+    return ctx
+end
+
