@@ -1,11 +1,15 @@
 
 local function rot_test(ctx)
     ctx
-    :with({ name="wool:blue" })
-    :cube(10,0,0)
-
-    ctx
     :with({ name="wool:red" })
+    :cube(10,0,0)
+    :with({ name="wool:blue" })
+    :rotate(0,90,0)
+    :cube(10,0,0)
+    :with({ name="wool:green" })
+    :rotate(0,90,0)
+    :cube(10,0,0)
+    :with({ name="wool:yellow" })
     :rotate(0,90,0)
     :cube(10,0,0)
 end
