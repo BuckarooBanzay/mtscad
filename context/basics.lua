@@ -1,7 +1,8 @@
 
 function mtscad.Context:with(node)
-    self.node = node
-    return self
+    local ctx = self:clone()
+    ctx.node = node
+    return ctx
 end
 
 function mtscad.Context:set_node()
