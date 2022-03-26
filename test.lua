@@ -1,15 +1,25 @@
 
-local function test_code(ctx)
+local function rot_test(ctx)
     ctx
-    :with({ name="default:stone" })
-    :translate(10,10,10)
-    :set()
+    :with({ name="wool:blue" })
+    :cube(10,0,0)
 
+    ctx
+    :with({ name="wool:red" })
+    :rotate(0,90,0)
+    :cube(10,0,0)
+end
+
+local function test_code(ctx)
     ctx
     :with({ name="default:stone" })
     :cube(10, 0, 0)
     :cube(0, 10, 0)
     :cube(0, 0, 10)
+
+    ctx
+    :translate(10, 10, 10)
+    :execute(rot_test)
 end
 
 minetest.register_chatcommand("test", {
