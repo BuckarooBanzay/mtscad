@@ -1,15 +1,4 @@
 
-local function cube_outliers(ctx, size)
-    ctx
-    :cube(size, 1, 1)
-    :cube(1, size, 1)
-    :cube(1, 1, size)
-    :translate(size-1, 0, size-1)
-    :cube(-size, 1, 1)
-    :cube(1, size, 1)
-    :cube(1, 1, -size)
-end
-
 local function rot_test(ctx)
     ctx
     :with({ name="wool:red" })
@@ -43,7 +32,7 @@ local function test_code(ctx)
     ctx
     :with({ name="default:copperblock" })
     :translate(2,2,2)
-    :execute(cube_outliers, 5)
+    :grid(5, 5, 5)
 end
 
 minetest.register_chatcommand("test", {
