@@ -2,6 +2,7 @@
 local path = minetest.get_worldpath() .. "/mtscad"
 minetest.mkdir(path)
 
+-- TODO: proper error-handling
 local function safe_load(modulename)
     local env = {
         print = print,
@@ -9,18 +10,29 @@ local function safe_load(modulename)
         load = safe_load
     }
 
-    local def, load_err = setfenv(loadfile(path .. "/" .. modulename .. ".lua"), env)
+    local def, load_err
+    local success, exec_err = pcall(function()
+        def, load_err = setfenv(loadfile(path .. "/" .. modulename .. ".lua"), env)
+    end)
+    if not success then
+        return nil, "Load of '" .. modulename .. "' failed with: '" .. exec_err .. "'"
+    elseif not def then
+        return nil, "Module '" .. modulename .. "' returned no function on load"
+    end
+
     if not def then
-        return nil, "Loading failed with '" .. load_err .. "'"
+        return nil, "Loading of '" .. modulename .. "' failed with '" .. load_err .. "'"
     end
 
     local fn
-    local success, exec_err = pcall(function()
+    success, exec_err = pcall(function()
         fn = def()
     end)
 
     if not success then
-        return nil, "Exec failed with: '" .. exec_err .. "'"
+        return nil, "Exec of '" .. modulename .. "' failed with: '" .. exec_err .. "'"
+    elseif not fn then
+        return nil, "Module '" .. modulename .. "' returned no function"
     end
 
     return fn
@@ -42,7 +54,7 @@ minetest.register_chatcommand("scad", {
         end)
 
         if not success then
-            return false, "Execute failed with '" ..exec_err .. "'"
+            return false, "Execute failed with '" .. exec_err .. "'"
         end
 
         return true, "File successfully executed"
