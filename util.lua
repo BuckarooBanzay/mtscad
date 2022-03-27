@@ -79,7 +79,7 @@ local facedir = {
               7,  4,  5,  6, 11,  8,  9, 10, 21, 22, 23, 20}
 }
 
-local function transform_pos_node(node, _, angle)
+local function transform_node_axis(node, _, angle)
 	angle = angle % 360
 	if angle == 0 then
 		return 0
@@ -110,6 +110,6 @@ end
 
 function mtscad.transform_node(node, rotation)
     local tnode = { name=node.name, param1=node.param1, param2=node.param2 }
-    transform_pos_node(tnode, "y", rotation.y)
+    transform_node_axis(tnode, "y", rotation.y)
     return tnode
 end
