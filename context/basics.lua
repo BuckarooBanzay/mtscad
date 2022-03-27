@@ -1,7 +1,7 @@
 
-function mtscad.Context:with(node)
+function mtscad.Context:with(node_or_nodename)
     local ctx = self:clone()
-    ctx.node = node
+    ctx.node = type(node_or_nodename) == "string" and {name=node_or_nodename} or node_or_nodename
     return ctx
 end
 
