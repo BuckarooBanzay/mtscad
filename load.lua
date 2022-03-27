@@ -2,40 +2,24 @@
 local path = minetest.get_worldpath() .. "/mtscad"
 minetest.mkdir(path)
 
--- TODO: proper error-handling
-local function safe_load(modulename)
+local function load_module(modulename)
     local env = {
         print = print,
         dump = dump,
-        load = safe_load
+        load = load_module
     }
 
-    local def, load_err
-    local success, exec_err = pcall(function()
-        def, load_err = setfenv(loadfile(path .. "/" .. modulename .. ".lua"), env)
-    end)
-    if not success then
-        return nil, "Load of '" .. modulename .. "' failed with: '" .. exec_err .. "'"
-    elseif not def then
-        return nil, "Module '" .. modulename .. "' returned no function on load"
+    local fn, err_msg = loadfile(path .. "/" .. modulename .. ".lua")
+    if not fn or err_msg then
+        error(err_msg)
     end
+    local def = setfenv(fn, env)
 
     if not def then
-        return nil, "Loading of '" .. modulename .. "' failed with '" .. load_err .. "'"
+        error("Loading of '" .. modulename .. "' failed")
     end
 
-    local fn
-    success, exec_err = pcall(function()
-        fn = def()
-    end)
-
-    if not success then
-        return nil, "Exec of '" .. modulename .. "' failed with: '" .. exec_err .. "'"
-    elseif not fn then
-        return nil, "Module '" .. modulename .. "' returned no function"
-    end
-
-    return fn
+    return def()
 end
 
 minetest.register_chatcommand("scad", {
@@ -44,12 +28,18 @@ minetest.register_chatcommand("scad", {
         local ppos = player:get_pos()
         local ctx = mtscad.create_context(vector.round(ppos))
 
-        local fn, err_msg = safe_load(modulename)
+        local fn
+        local success, exec_err = pcall(function()
+            fn = load_module(modulename)
+        end)
+        if not success then
+            return false, "Load failed with '" .. exec_err .. "'"
+        end
         if not fn then
-            return false, err_msg
+            return false, "No script loaded"
         end
 
-        local success, exec_err = pcall(function()
+        success, exec_err = pcall(function()
             fn(ctx)
         end)
 
