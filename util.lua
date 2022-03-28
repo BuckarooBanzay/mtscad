@@ -1,49 +1,49 @@
 -- TODO: attribute worledit code
 
 function mtscad.sort_pos(pos1, pos2)
-	pos1 = {x=pos1.x, y=pos1.y, z=pos1.z}
-	pos2 = {x=pos2.x, y=pos2.y, z=pos2.z}
-	if pos1.x > pos2.x then
-		pos2.x, pos1.x = pos1.x, pos2.x
-	end
-	if pos1.y > pos2.y then
-		pos2.y, pos1.y = pos1.y, pos2.y
-	end
-	if pos1.z > pos2.z then
-		pos2.z, pos1.z = pos1.z, pos2.z
-	end
-	return pos1, pos2
+    pos1 = {x=pos1.x, y=pos1.y, z=pos1.z}
+    pos2 = {x=pos2.x, y=pos2.y, z=pos2.z}
+    if pos1.x > pos2.x then
+        pos2.x, pos1.x = pos1.x, pos2.x
+    end
+    if pos1.y > pos2.y then
+        pos2.y, pos1.y = pos1.y, pos2.y
+    end
+    if pos1.z > pos2.z then
+        pos2.z, pos1.z = pos1.z, pos2.z
+    end
+    return pos1, pos2
 end
 
 local function get_axis_others(axis)
-	if axis == "x" then
-		return "y", "z"
-	elseif axis == "y" then
-		return "x", "z"
-	elseif axis == "z" then
-		return "x", "y"
-	else
-		error("Axis must be x, y, or z!")
-	end
+    if axis == "x" then
+        return "y", "z"
+    elseif axis == "y" then
+        return "x", "z"
+    elseif axis == "z" then
+        return "x", "y"
+    else
+        error("Axis must be x, y, or z!")
+    end
 end
 
 local function flip_pos(rel_pos, axis)
-	rel_pos[axis] =  -1 * rel_pos[axis]
+    rel_pos[axis] =  -1 * rel_pos[axis]
 end
 
 local function transpose_pos(rel_pos, axis1, axis2)
-	rel_pos[axis1], rel_pos[axis2] = rel_pos[axis2], rel_pos[axis1]
+    rel_pos[axis1], rel_pos[axis2] = rel_pos[axis2], rel_pos[axis1]
 end
 
 local function transform_pos_axis(rel_pos, axis, angle)
     local other1, other2 = get_axis_others(axis)
-	angle = angle % 360
+    angle = angle % 360
 
     if angle == 0 then
         return
     elseif angle == 90 then
         flip_pos(rel_pos, other1)
-		transpose_pos(rel_pos, other1, other2)
+        transpose_pos(rel_pos, other1, other2)
     elseif angle == 180 then
         flip_pos(rel_pos, other1)
         flip_pos(rel_pos, other2)
@@ -80,16 +80,16 @@ local facedir = {
 }
 
 local function transform_node_axis(node, _, angle)
-	angle = angle % 360
-	if angle == 0 then
-		return 0
-	end
-	if angle % 90 ~= 0 then
-		error("Only 90 degree increments are supported!")
-	end
+    angle = angle % 360
+    if angle == 0 then
+        return 0
+    end
+    if angle % 90 ~= 0 then
+        error("Only 90 degree increments are supported!")
+    end
 
     local wallmounted_substitution = wallmounted[angle]
-	local facedir_substitution = facedir[angle]
+    local facedir_substitution = facedir[angle]
     local def = minetest.registered_nodes[node.name]
     if def then
         local paramtype2 = def.paramtype2
