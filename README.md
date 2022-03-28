@@ -8,42 +8,68 @@ Status: **WIP**
 
 Files placed in `<worlddir>/mtscad/`
 
-rot_test.lua
+stairs.lua
 ```lua
-return function(ctx)
+-- diagonal line along x and y with "count" nodes
+local function diag_x_line(ctx, count)
+    for x=0, count do
+        ctx
+        :translate(x, x, 0)
+        :set_node()
+    end
+end
+
+return function(ctx, opts)
+    -- filler
     ctx
-    :with("wool:red")
-    :cube(10,1,1)
-    :with("wool:blue")
-    :rotate(0,90,0)
-    :cube(10,1,1)
-    :with("wool:green")
-    :rotate(0,90,0)
-    :cube(10,1,1)
-    :with("wool:yellow")
-    :rotate(0,90,0)
-    :cube(10,1,1)
-    :translate(10,0,0)
-    :with("moreblocks:slope_stone")
-    :slope(1,1,0)
-    :set_node()
+    :with(opts.filler)
+    :execute(diag_x_line, opts.height-1)
+    :translate(0, 0, opts.width-1)
+    :execute(diag_x_line, opts.height-1)
+
+    -- slopes above
+    ctx
+    :with(opts.slopes)
+    :slope(-1, 1, 0)
+    :translate(0, 1, 0)
+    :execute(diag_x_line, opts.height-2)
+    :translate(0, 0, opts.width-1)
+    :execute(diag_x_line, opts.height-2)
+
+    -- slopes below
+    ctx
+    :with(opts.slopes)
+    :slope(1, -1, 0)
+    :translate(1, 0, 0)
+    :execute(diag_x_line, opts.height-2)
+    :translate(0, 0, opts.width-1)
+    :execute(diag_x_line, opts.height-2)
+
+    -- stairs
+    for z=1,opts.width-2 do
+        ctx
+        :with(opts.stairs)
+        :slope(-1, 1, 0)
+        :translate(0, 0, z)
+        :execute(diag_x_line, opts.height-1)
+    end
 end
 ```
 
 test.lua
 ```lua
-local rot_test = load("rot_test")
+local stairs = load("stairs")
 
 return function(ctx)
     ctx
-    :with("default:stone")
-    :cube(10, 1, 1)
-    :cube(1, 10, 1)
-    :cube(1, 1, 10)
-
-    ctx
-    :translate(10, 10, 10)
-    :execute(rot_test)
+    :rotate(0, 0, 0)
+    :execute(stairs, {
+        height = 4,
+        width = 5,
+        slopes = "moreblocks:slope_stone",
+        stairs = "moreblocks:stair_stone_alt_4",
+        filler = "default:stone"
+    })
 end
 ```
 
