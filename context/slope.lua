@@ -11,13 +11,9 @@ local slope_param2 = {
     ["0,-1,-1"] = 20
 }
 
-local function format_pos(p)
-    return p.x .. "," .. p.y .. "," .. p.z
-end
-
-function mtscad.Context:slope(dir)
+function mtscad.Context:slope(x, y, z)
     local ctx = self:clone()
-    ctx.node.param2 = slope_param2[format_pos(dir)]
+    ctx.node.param2 = slope_param2[x .. "," .. y .. "," .. z]
     return ctx
 end
 

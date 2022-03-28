@@ -25,7 +25,7 @@ return function(ctx)
     :cube(10,1,1)
     :translate(10,0,0)
     :with("moreblocks:slope_stone")
-    :slope({ x=1, y=1, z=0 })
+    :slope(1,1,0)
     :set_node()
 end
 ```
