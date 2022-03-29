@@ -32,11 +32,13 @@ end
 
 minetest.register_chatcommand("scad", {
     func = function(name, modulename)
-        local player = minetest.get_player_by_name(name)
-        local ppos = player:get_pos()
+        local origin = mtscad.get_origin(name)
+        if not origin then
+            return false, "Set your origin point first with /origin"
+        end
         local start = minetest.get_us_time()
         local ctx = mtscad.create_context({
-            pos = vector.round(ppos)
+            pos = origin
         }, function()
             local ms_diff = minetest.get_us_time() - start
             minetest.chat_send_player(name, "File asynchronously executed in " .. math.floor(ms_diff/1000) .. " ms")
