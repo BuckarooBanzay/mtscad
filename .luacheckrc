@@ -1,6 +1,7 @@
 globals = {
 	"mtscad",
-	"minetest"
+	"minetest",
+	"vector" -- for test-env patching
 }
 
 read_globals = {
@@ -9,7 +10,7 @@ read_globals = {
 	table = {fields = {"copy", "getn"}},
 
 	-- Minetest
-	"vector", "ItemStack",
+	"ItemStack",
 	"dump", "dump2",
 	"VoxelArea",
 
