@@ -34,9 +34,13 @@ minetest.register_chatcommand("scad", {
     func = function(name, modulename)
         local player = minetest.get_player_by_name(name)
         local ppos = player:get_pos()
+        local start = minetest.get_us_time()
         local ctx = mtscad.create_context({
             pos = vector.round(ppos)
-        })
+        }, function()
+            local ms_diff = minetest.get_us_time() - start
+            minetest.chat_send_player(name, "File asynchronously executed in " .. math.floor(ms_diff/1000) .. " ms")
+        end)
 
         local fn, options
         local success, exec_err = pcall(function()
@@ -66,6 +70,11 @@ minetest.register_chatcommand("scad", {
             return false, "Execute failed with '" .. exec_err .. "'"
         end
 
-        return true, "File successfully executed"
+        if ctx.job_context.count > 0 then
+            return true, "Job dispatched"
+        else
+            local ms_diff = minetest.get_us_time() - start
+            return true, "File synchronously executed in " .. math.floor(ms_diff/1000) .. " ms"
+        end
     end
 })
