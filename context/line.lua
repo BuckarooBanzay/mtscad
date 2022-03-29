@@ -4,7 +4,7 @@ local function round(n)
 end
 
 function mtscad.Context:line(x, y, z)
-    local steps = math.sqrt( (x*x) + (y*y) + (z*z) )
+    local steps = math.ceil( math.sqrt( (x*x) + (y*y) + (z*z) ) )
     for step=0,steps do
         local xi = round(x / steps * step)
         local yi = round(y / steps * step)

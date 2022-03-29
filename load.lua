@@ -34,7 +34,9 @@ minetest.register_chatcommand("scad", {
     func = function(name, modulename)
         local player = minetest.get_player_by_name(name)
         local ppos = player:get_pos()
-        local ctx = mtscad.create_context(vector.round(ppos))
+        local ctx = mtscad.create_context({
+            pos = vector.round(ppos)
+        })
 
         local fn, options
         local success, exec_err = pcall(function()
