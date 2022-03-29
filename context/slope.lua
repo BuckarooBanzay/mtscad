@@ -17,7 +17,7 @@ local slope_param2 = {
 
 function mtscad.Context:slope(x, y, z)
     local ctx = self:clone()
-    ctx.node.param2 = slope_param2[x .. "," .. y .. "," .. z]
+    ctx.param2 = slope_param2[x .. "," .. y .. "," .. z]
     return ctx
 end
 

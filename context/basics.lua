@@ -1,12 +1,42 @@
 
-function mtscad.Context:with(node_or_nodename)
+
+local function create_nodefactory(def)
+    if type(def) == "string" then
+        -- string
+        return function()
+            return { name=def }
+        end
+    elseif type(def) == "table" and def.name then
+        -- node table
+        return function()
+            return def
+        end
+    elseif type(def) == "table" then
+        -- multiple nodes with chance value
+        local nodes = {}
+        for nn, ch in pairs(def) do
+            for _=1,ch do
+                table.insert(nodes, nn)
+            end
+        end
+        return function()
+            return { name=nodes[math.random(#nodes)], param2=0 }
+        end
+    end
+end
+
+function mtscad.Context:with(def)
     local ctx = self:clone()
-    ctx.node = type(node_or_nodename) == "string" and {name=node_or_nodename} or node_or_nodename
+    ctx.nodefactory = create_nodefactory(def)
     return ctx
 end
 
 function mtscad.Context:set_node()
-    local tnode = mtscad.transform_node(self.node, self.rotation)
+    local node = self.nodefactory and self.nodefactory() or { name="air" }
+    if not node.param2 and self.param2 then
+        node.param2 = self.param2
+    end
+    local tnode = mtscad.transform_node(node, self.rotation)
     minetest.set_node(self.pos, tnode)
     return self
 end
