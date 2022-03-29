@@ -36,27 +36,27 @@ minetest.register_chatcommand("scad", {
         local ppos = player:get_pos()
         local ctx = mtscad.create_context(vector.round(ppos))
 
-        local mod
+        local fn, options
         local success, exec_err = pcall(function()
-            mod = load_module(modulename)
+            fn, options = load_module(modulename)
         end)
         if not success then
             return false, "Load failed with '" .. exec_err .. "'"
         end
-        if not mod then
+        if not fn then
             return false, "No script loaded"
         end
 
         success, exec_err = pcall(function()
-            if type(mod) == "function" then
-                mod(ctx)
-            elseif type(mod) == "table" then
-                local opts = {}
-                if type(mod.defaults) == "table" then
-                    merge_defaults(opts, mod.defaults)
+            local opts = {}
+            if type(options) == "table" then
+                if type(options.defaults) == "table" then
+                    merge_defaults(opts, options.defaults)
                 end
+            end
 
-                mod.main(ctx, opts)
+            if type(fn) == "function" then
+                fn(ctx, opts)
             end
         end)
 
