@@ -1,10 +1,10 @@
 
 
-local function create_nodefactory(def)
+local function create_nodefactory(def, param2)
     if type(def) == "string" then
         -- string
         return function()
-            return { name=def }
+            return { name=def, param2=param2 }
         end
     elseif type(def) == "table" and def.nodefactory then
         -- other context with nodefactory
@@ -25,14 +25,14 @@ local function create_nodefactory(def)
             end
         end
         return function()
-            return { name=nodes[math.random(#nodes)], param2=0 }
+            return { name=nodes[math.random(#nodes)], param2=param2 }
         end
     end
 end
 
 function mtscad.Context:with(def)
     local ctx = self:clone()
-    ctx.nodefactory = create_nodefactory(def)
+    ctx.nodefactory = create_nodefactory(def, self.param2)
     return ctx
 end
 
