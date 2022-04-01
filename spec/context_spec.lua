@@ -14,8 +14,8 @@ function vector.copy(v)
 end
 
 describe("mtscad.create_context() test", function()
-	it("set_node() works", function()
-		local origin = { x=4, y=0, z=0 }
+    it("set_node() works", function()
+        local origin = { x=4, y=0, z=0 }
         local ctx = mtscad.create_context({ pos = origin })
 
         ctx
@@ -23,6 +23,20 @@ describe("mtscad.create_context() test", function()
         :set_node()
 
         local node = minetest.get_node(origin)
+        assert.not_nil(node)
+        assert.equal("default:mese", node.name)
+    end)
+
+	it("translation works", function()
+		local origin = { x=4, y=0, z=0 }
+        local ctx = mtscad.create_context({ pos = origin })
+
+        ctx
+        :translate(1,1,1)
+        :with("default:mese")
+        :set_node()
+
+        local node = minetest.get_node(vector.add(origin, 1))
         assert.not_nil(node)
         assert.equal("default:mese", node.name)
 	end)
