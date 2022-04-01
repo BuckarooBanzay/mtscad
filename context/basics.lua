@@ -6,11 +6,16 @@ local function create_nodefactory(def)
         return function()
             return { name=def }
         end
+    elseif type(def) == "table" and def.nodefactory then
+        -- other context with nodefactory
+        return def.nodefactory
+
     elseif type(def) == "table" and def.name then
         -- node table
         return function()
             return def
         end
+
     elseif type(def) == "table" then
         -- multiple nodes with chance value
         local nodes = {}
