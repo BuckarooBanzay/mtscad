@@ -6,7 +6,12 @@ local function load_module(modulename)
     local env = {
         print = print,
         dump = dump,
-        load = load_module
+        load = load_module,
+        math = math,
+        ipairs = ipairs,
+        table = {
+            insert = table.insert
+        }
     }
 
     local fn, err_msg = loadfile(path .. "/" .. modulename .. ".lua")
