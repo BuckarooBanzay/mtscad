@@ -4,14 +4,19 @@ minetest.mkdir(path)
 
 local function load_module(modulename)
     local env = {
+        -- debug
         print = print,
         dump = dump,
+        -- module loading
         load = load_module,
+        -- builtin / default
         math = math,
         ipairs = ipairs,
         table = {
             insert = table.insert
-        }
+        },
+        -- custom functions
+        merge_table = mtscad.merge
     }
 
     local fn, err_msg = loadfile(path .. "/" .. modulename .. ".lua")
