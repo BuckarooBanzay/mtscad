@@ -1,13 +1,7 @@
 function mtscad.Context:execute(fn, ...)
-
-    self.job_context.count = self.job_context.count + 1
-    minetest.after(0.1, function(...)
-        fn(self:clone(), ...)
-        self.job_context.count = self.job_context.count - 1
-        if self.job_context.count == 0 then
-            self.job_context.done_callback()
-        end
-    end, ...)
+    local params = ...
+    local ctx = self:clone()
+    self.job_context.enqueue(function() fn(ctx, params) end)
 
     return self
 end

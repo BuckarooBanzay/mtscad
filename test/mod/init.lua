@@ -12,11 +12,22 @@ end
 local function draw(callback)
 
   local ctx = mtscad.create_context({ pos = pos1 })
-  ctx
-  :with("default:stone")
-  :line(10,10,10)
+  ctx.job_context.register_on_done(function(_, err_msg)
+    if err_msg then
+      error(err_msg)
+    end
+    assert(minetest.get_node({x=10,y=10,z=10}).name == "default:mese")
+    callback()
+  end)
 
-  callback()
+  -- workspace begins here --
+  ctx
+  :with("default:mese")
+  :line(10,10,10)
+  -- workspace ends here --
+
+  -- process async jobs
+  ctx.job_context.process()
 end
 
 

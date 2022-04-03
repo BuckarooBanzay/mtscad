@@ -47,12 +47,7 @@ minetest.register_chatcommand("scad", {
             return false, "Set your origin point first with /origin"
         end
         local start = minetest.get_us_time()
-        local ctx = mtscad.create_context({
-            pos = origin
-        }, function()
-            local ms_diff = minetest.get_us_time() - start
-            minetest.chat_send_player(name, "File asynchronously executed in " .. math.floor(ms_diff/1000) .. " ms")
-        end)
+        local ctx = mtscad.create_context({ pos = origin })
 
         local fn, options
         local success, exec_err = pcall(function()
@@ -82,11 +77,15 @@ minetest.register_chatcommand("scad", {
             return false, "Execute failed with '" .. exec_err .. "'"
         end
 
-        if ctx.job_context.count > 0 then
-            return true, "Job dispatched"
-        else
-            local ms_diff = minetest.get_us_time() - start
-            return true, "File synchronously executed in " .. math.floor(ms_diff/1000) .. " ms"
-        end
+        ctx.job_context.register_on_done(function(job_count, err_msg)
+            if err_msg then
+                minetest.chat_send_player(name, "Execution failed with '" .. err_msg .. "'")
+            else
+                local ms_diff = math.floor((minetest.get_us_time() - start) / 1000)
+                minetest.chat_send_player(name, "File executed in " .. ms_diff .. " ms with " .. job_count .. " jobs")
+            end
+        end)
+        ctx.job_context.process()
+        return true, "Job dispatched"
     end
 })
