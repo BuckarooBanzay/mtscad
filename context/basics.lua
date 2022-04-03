@@ -1,9 +1,9 @@
 
 
-local function create_nodefactory(def, param2)
+local function create_nodefactory(def)
     if type(def) == "string" then
         -- string
-        return function()
+        return function(param2)
             return { name=def, param2=param2 }
         end
     elseif type(def) == "table" and def.nodefactory then
@@ -24,7 +24,7 @@ local function create_nodefactory(def, param2)
                 table.insert(nodes, nn)
             end
         end
-        return function()
+        return function(param2)
             return { name=nodes[math.random(#nodes)], param2=param2 }
         end
     end
@@ -37,7 +37,7 @@ function mtscad.Context:with(def)
 end
 
 function mtscad.Context:set_node()
-    local node = self.nodefactory and self.nodefactory() or { name="air" }
+    local node = self.nodefactory and self.nodefactory(self.param2) or { name="air" }
     if not node.param2 and self.param2 then
         node.param2 = self.param2
     end
