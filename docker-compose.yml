@@ -1,0 +1,17 @@
+version: "3.6"
+
+services:
+ sut:
+  image: registry.gitlab.com/minetest/minetest/server:5.4.0
+  entrypoint: "minetestserver --config /minetest.conf"
+  user: root
+  volumes:
+    - "./:/root/.minetest/worlds/world/worldmods/mtscad/"
+    - "./test/mod:/root/.minetest/worlds/world/worldmods/mtscad_test/"
+    - "./test/minetest.conf:/minetest.conf"
+    - "world:/root/.minetest/worlds/world"
+  ports:
+    - "30000:30000/udp"
+
+volumes:
+  world: {}
