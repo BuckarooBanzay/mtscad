@@ -27,7 +27,7 @@ function mtscad.create_job_context()
         queue_pos = queue_pos + 1
 
         -- re-schedule
-        minetest.after(0.1, worker)
+        minetest.after(0, worker)
     end
 
     return {
