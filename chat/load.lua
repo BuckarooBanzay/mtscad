@@ -41,9 +41,9 @@ minetest.register_chatcommand("scad", {
         local start = minetest.get_us_time()
         local ctx = mtscad.create_context({ pos = origin })
 
-        local fn, options
+        local fn
         local success, exec_err = pcall(function()
-            fn, options = load_module(modulename)
+            fn = load_module(modulename)
         end)
         if not success then
             return false, "Load failed with '" .. exec_err .. "'"
@@ -53,15 +53,8 @@ minetest.register_chatcommand("scad", {
         end
 
         success, exec_err = pcall(function()
-            local opts = {}
-            if type(options) == "table" then
-                if type(options.defaults) == "table" then
-                    opts = mtscad.merge(options.defaults, opts)
-                end
-            end
-
             if type(fn) == "function" then
-                fn(ctx, opts)
+                fn(ctx)
             end
         end)
 
