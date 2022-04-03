@@ -19,6 +19,14 @@ Files placed in `<worlddir>/mtscad/`
 stairs.lua
 ```lua
 return function(ctx, opts)
+    opts = merge_table({
+        height = 4,
+        width = 5,
+        slopes = "moreblocks:slope_stone",
+        stairs = "moreblocks:stair_stone_alt_4",
+        filler = "default:stone"
+    }, opts)
+
     -- filler
     ctx
     :with(opts.filler)
@@ -52,15 +60,7 @@ return function(ctx, opts)
         :translate(0, 0, z)
         :line(opts.height-1, opts.height-1, 0)
     end
-end, {
-    defaults = {
-        height = 4,
-        width = 5,
-        slopes = "moreblocks:slope_stone",
-        stairs = "moreblocks:stair_stone_alt_4",
-        filler = "default:stone"
-    }
-}
+end
 ```
 
 test.lua
