@@ -7,7 +7,7 @@ function mtscad.Context:pattern(pattern)
 
             self
             :with(n)
-            :translate(x,y,0)
+            :translate(x-1,y,0)
             :set_node()
         end
     end
