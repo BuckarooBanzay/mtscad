@@ -10,6 +10,7 @@ Status: **WIP**
 [![License](https://img.shields.io/badge/License-MIT%20and%20CC%20BY--SA%203.0-green.svg)](license.txt)
 [![Download](https://img.shields.io/badge/Download-ContentDB-blue.svg)](https://content.minetest.net/packages/BuckarooBanzay/mtscad)
 
+Required engine-version: `5.5.0`
 
 # Example
 
