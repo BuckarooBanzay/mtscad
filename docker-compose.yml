@@ -9,6 +9,7 @@ services:
     - "./:/root/.minetest/worlds/world/worldmods/mtscad/"
     - "./test/mod:/root/.minetest/worlds/world/worldmods/mtscad_test/"
     - "./test/workspace:/root/.minetest/worlds/world/mtscad/"
+    - "./test/world.mt:/root/.minetest/worlds/world/world.mt"
     - "./test/minetest.conf:/minetest.conf"
     - "world:/root/.minetest/worlds/world"
   ports:
