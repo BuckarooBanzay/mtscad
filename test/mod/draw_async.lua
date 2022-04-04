@@ -19,4 +19,4 @@ return function(callback)
 
   -- process async jobs
   ctx.job_context.process()
-  end
+end
