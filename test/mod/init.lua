@@ -1,25 +1,31 @@
 local pos1 = vector.new(0,0,0)
 local pos2 = vector.new(30,30,30)
 
-local MP = minetest.get_modpath("mtscad_test")
-local draw_line = loadfile(MP .. "/draw_line.lua")()
-local draw_async = loadfile(MP .. "/draw_async.lua")()
-local prepare_world = loadfile(MP .. "/prepare_world.lua")(pos1, pos2)
+local jobs = {}
 
--- simple smoke tests
-if minetest.settings:get_bool("enable_integration_test") then
-  minetest.log("warning", "[TEST] integration-test enabled!")
-  minetest.register_on_mods_loaded(function()
-    -- defer emerging until stuff is settled
-    minetest.after(1, function()
-      prepare_world(function()
-        draw_line({x=0, y=0, z=0}, function()
-          draw_async({x=20, y=0, z=0}, function()
-            -- exit gracefully
-            minetest.request_shutdown("success")
-          end)
-        end)
-      end)
-    end)
+local MP = minetest.get_modpath("mtscad_test")
+table.insert(jobs, loadfile(MP .. "/prepare_world.lua")(pos1, pos2))
+table.insert(jobs, loadfile(MP .. "/draw_line.lua")({x=0, y=0, z=0}))
+table.insert(jobs, loadfile(MP .. "/draw_async.lua")({x=20, y=0, z=0}))
+
+local job_index = 1
+
+local function worker()
+  local job = jobs[job_index]
+  if not job then
+    -- exit gracefully
+    minetest.request_shutdown("success")
+    return
+  end
+
+  job(function()
+    job_index = job_index + 1
+    minetest.after(0, worker)
   end)
 end
+
+minetest.log("warning", "[TEST] integration-test enabled!")
+minetest.register_on_mods_loaded(function()
+  -- defer emerging until stuff is settled
+  minetest.after(1, worker)
+end)
