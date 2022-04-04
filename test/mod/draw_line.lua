@@ -10,12 +10,8 @@ return function(origin, callback)
       callback()
     end)
 
-    -- workspace begins here --
-    ctx
-    :with("default:mese")
-    :slope(1,1,0)
-    :line(10,10,10)
-    -- workspace ends here --
+    local mod = mtscad.load_module("draw_line")
+    mod(ctx)
 
     -- process async jobs
     ctx.job_context.process()

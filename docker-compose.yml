@@ -8,6 +8,7 @@ services:
   volumes:
     - "./:/root/.minetest/worlds/world/worldmods/mtscad/"
     - "./test/mod:/root/.minetest/worlds/world/worldmods/mtscad_test/"
+    - "./test/workspace:/root/.minetest/worlds/world/mtscad/"
     - "./test/minetest.conf:/minetest.conf"
     - "world:/root/.minetest/worlds/world"
   ports:
