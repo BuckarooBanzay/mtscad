@@ -7,6 +7,7 @@ local MP = minetest.get_modpath("mtscad_test")
 table.insert(jobs, loadfile(MP .. "/prepare_world.lua")(pos1, pos2))
 table.insert(jobs, loadfile(MP .. "/draw_line.lua")({x=0, y=0, z=0}))
 table.insert(jobs, loadfile(MP .. "/draw_async.lua")({x=20, y=0, z=0}))
+table.insert(jobs, loadfile(MP .. "/translate_rotate.lua")({x=20, y=0, z=20}))
 
 local job_index = 1
 
