@@ -1,12 +1,5 @@
 local function add_rotation(a, b)
-    -- TODO: only 90°-increments allowed
-    a = a or 0
-    b = b or 0
-    local sum = a + b
-    while sum >= 360 do
-        sum = sum - 360
-    end
-    return sum
+    return ((a or 0) + (b or 0)) % 360
 end
 
 function mtscad.Context:rotate(x, y, z)
