@@ -43,9 +43,9 @@ end
 function mtscad.transform_pos(origin, pos, rotation)
     local rel_pos = vector.subtract(pos, origin)
 
-    transform_pos_axis(rel_pos, "x", rotation.x)
     transform_pos_axis(rel_pos, "y", rotation.y)
     transform_pos_axis(rel_pos, "z", rotation.z)
+    transform_pos_axis(rel_pos, "x", rotation.x)
 
     return vector.add(origin, rel_pos)
 end
@@ -84,8 +84,8 @@ end
 
 function mtscad.transform_node(node, rotation)
     local tnode = { name=node.name, param1=node.param1, param2=node.param2 }
-    transform_node_axis(tnode, "x+", rotation.x)
     transform_node_axis(tnode, "y-", rotation.y)
     transform_node_axis(tnode, "z+", rotation.z)
+    transform_node_axis(tnode, "x+", rotation.x)
     return tnode
 end

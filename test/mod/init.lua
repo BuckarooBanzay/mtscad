@@ -4,6 +4,9 @@ local pos2 = vector.new(30,30,30)
 local jobs = {}
 
 local MP = minetest.get_modpath("mtscad_test")
+table.insert(jobs, loadfile(MP .. "/util_merge.lua")())
+table.insert(jobs, loadfile(MP .. "/util_rotate_facedir.lua")())
+table.insert(jobs, loadfile(MP .. "/util_transform_pos.lua")())
 table.insert(jobs, loadfile(MP .. "/prepare_world.lua")(pos1, pos2))
 table.insert(jobs, loadfile(MP .. "/draw_line.lua")({x=0, y=0, z=0}))
 table.insert(jobs, loadfile(MP .. "/draw_async.lua")({x=20, y=0, z=0}))
