@@ -1,53 +1,11 @@
--- TODO: attribute worledit code
-
-local function get_axis_others(axis)
-    if axis == "x" then
-        return "y", "z"
-    elseif axis == "y" then
-        return "x", "z"
-    elseif axis == "z" then
-        return "x", "y"
-    else
-        error("Axis must be x, y, or z!")
-    end
-end
-
-local function flip_pos(rel_pos, axis)
-    rel_pos[axis] =  -1 * rel_pos[axis]
-end
-
-local function transpose_pos(rel_pos, axis1, axis2)
-    rel_pos[axis1], rel_pos[axis2] = rel_pos[axis2], rel_pos[axis1]
-end
-
-local function transform_pos_axis(rel_pos, axis, angle)
-    local other1, other2 = get_axis_others(axis)
-    angle = angle % 360
-
-    if angle == 0 then
-        return
-    elseif angle == 90 then
-        flip_pos(rel_pos, other1)
-        transpose_pos(rel_pos, other1, other2)
-    elseif angle == 180 then
-        flip_pos(rel_pos, other1)
-        flip_pos(rel_pos, other2)
-    elseif angle == 270 then
-        flip_pos(rel_pos,other2)
-        transpose_pos(rel_pos, other1, other2)
-    else
-        error("Only 90 degree increments are supported!")
-    end
-end
 
 function mtscad.transform_pos(origin, pos, rotation)
     local rel_pos = vector.subtract(pos, origin)
 
-    transform_pos_axis(rel_pos, "y", rotation.y)
-    transform_pos_axis(rel_pos, "z", rotation.z)
-    transform_pos_axis(rel_pos, "x", rotation.x)
-
-    return vector.add(origin, rel_pos)
+    local m = {{rel_pos.x}, {rel_pos.y}, {rel_pos.z}}
+    local p2 = mtscad.multiply_matrix(rotation, m)
+    local offset_pos = {x=p2[1][1], y=p2[2][1], z=p2[3][1]}
+    return vector.add(origin, offset_pos)
 end
 
 local wallmounted = {
@@ -62,6 +20,7 @@ local function transform_node_axis(node, axis, angle)
         return 0
     end
     if angle % 90 ~= 0 then
+        print(angle)
         error("Only 90 degree increments are supported!")
     end
 
@@ -84,8 +43,8 @@ end
 
 function mtscad.transform_node(node, rotation)
     local tnode = { name=node.name, param1=node.param1, param2=node.param2 }
-    transform_node_axis(tnode, "y-", rotation.y)
-    transform_node_axis(tnode, "z+", rotation.z)
-    transform_node_axis(tnode, "x+", rotation.x)
+    transform_node_axis(tnode, "y-", mtscad.matrix_angle_y(rotation))
+    transform_node_axis(tnode, "z+", mtscad.matrix_angle_z(rotation))
+    transform_node_axis(tnode, "x+", mtscad.matrix_angle_x(rotation))
     return tnode
 end
