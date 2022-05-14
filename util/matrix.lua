@@ -55,3 +55,15 @@ function mtscad.multiply_matrix(m1, m2)
 	end
 	return res
 end
+
+function mtscad.pos_to_matrix(pos)
+    return {{pos.x},{pos.y},{pos.z}}
+end
+
+function mtscad.matrix_to_pos(m)
+    return {
+        x=math.floor(0.5+m[1][1]),
+        y=math.floor(0.5+m[2][1]),
+        z=math.floor(0.5+m[3][1])
+    }
+end
