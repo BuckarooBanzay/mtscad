@@ -1,13 +1,4 @@
 
-function mtscad.transform_pos(origin, pos, rotation)
-    local rel_pos = vector.subtract(pos, origin)
-
-    local m = {{rel_pos.x}, {rel_pos.y}, {rel_pos.z}}
-    local p2 = mtscad.multiply_matrix(rotation, m)
-    local offset_pos = {x=p2[1][1], y=p2[2][1], z=p2[3][1]}
-    return vector.add(origin, offset_pos)
-end
-
 local wallmounted = {
     [90]  = {0, 1, 5, 4, 2, 3, 0, 0},
     [180] = {0, 1, 3, 2, 5, 4, 0, 0},
