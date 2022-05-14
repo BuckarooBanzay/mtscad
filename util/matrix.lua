@@ -28,16 +28,23 @@ function mtscad.rotation_matrix_z(angle)
 end
 
 -- https://stackoverflow.com/questions/15022630/how-to-calculate-the-angle-from-rotation-matrix
-function mtscad.matrix_angle_x(m)
-    return math.floor(0.5+math.deg(math.atan2(m[3][2], m[3][3])))
-end
+-- http://eecs.qmul.ac.uk/~gslabaugh/publications/euler.pdf
+function mtscad.get_matrix_angles(m)
+    local ay = math.floor(0.5+math.deg(math.atan2(-m[3][1], math.sqrt((m[3][2]^2) + (m[3][3]^2)))))
+    local ax, az
+    if ay == 90 or ay == -90 then
+        ax = 180
+        az = math.floor(0.5+math.deg(math.atan2(m[1][2], -m[2][2])))
+    else
+        ax = math.floor(0.5+math.deg(math.atan2(m[3][2], m[3][3])))
+        az = math.floor(0.5+math.deg(math.atan2(m[2][1], m[1][1])))
+    end
 
-function mtscad.matrix_angle_y(m)
-    return math.floor(0.5+math.deg(math.atan2(-m[3][1], math.sqrt((m[3][2]^2) + (m[3][3]^2)))))
-end
-
-function mtscad.matrix_angle_z(m)
-    return math.floor(0.5+math.deg(math.atan2(m[2][1], m[1][1])))
+    return {
+        x = ax,
+        y = ay,
+        z = az
+    }
 end
 
 -- https://rosettacode.org/wiki/Matrix_multiplication#Lua

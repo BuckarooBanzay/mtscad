@@ -34,8 +34,9 @@ end
 
 function mtscad.transform_node(node, rotation)
     local tnode = { name=node.name, param1=node.param1, param2=node.param2 }
-    transform_node_axis(tnode, "x-", mtscad.matrix_angle_x(rotation))
-    transform_node_axis(tnode, "y-", mtscad.matrix_angle_y(rotation))
-    transform_node_axis(tnode, "z-", mtscad.matrix_angle_z(rotation))
+    local angles = mtscad.get_matrix_angles(rotation)
+    transform_node_axis(tnode, "x-", angles.x)
+    transform_node_axis(tnode, "y-", angles.y)
+    transform_node_axis(tnode, "z-", angles.z)
     return tnode
 end

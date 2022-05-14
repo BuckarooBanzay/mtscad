@@ -80,7 +80,7 @@ return function(callback)
     pos2 = mtscad.matrix_to_pos(mtscad.multiply_matrix(m, mtscad.pos_to_matrix(pos)))
     assert(vector.equals(pos2, {x=0,y=10,z=0}), "1x 180°, 2x 90° rotation around z axis")
 
-    -- rotate x-90°, y-90°
+    -- rotate x 90°, y 90°
     pos = {x=0, y=10, z=0}
     m = mtscad.rotation_matrix_x(0)
     m = mtscad.multiply_matrix(m, mtscad.rotation_matrix_x(90), mtscad.pos_to_matrix(pos))
@@ -88,16 +88,29 @@ return function(callback)
     pos2 = mtscad.matrix_to_pos(mtscad.multiply_matrix(m, mtscad.pos_to_matrix(pos)))
     assert(vector.equals(pos2, {x=0,y=0,z=10}), "90°X + 90°Y rotation")
 
-    -- rotate x-90°, y-180°
+    -- rotate x 90°, y 180°
     pos = {x=0, y=10, z=0}
     m = mtscad.rotation_matrix_x(0)
     m = mtscad.multiply_matrix(m, mtscad.rotation_matrix_x(90), mtscad.pos_to_matrix(pos))
     m = mtscad.multiply_matrix(m, mtscad.rotation_matrix_y(180), m)
-    assert(mtscad.matrix_angle_x(m) == 90, "90° x angle")
-    assert(mtscad.matrix_angle_y(m) == 0, "0° y angle")
-    assert(mtscad.matrix_angle_z(m) == 180, "180° z angle")
+    local angles = mtscad.get_matrix_angles(m)
+    assert(angles.x == 90, "90° x angle")
+    assert(angles.y == 0, "0° y angle")
+    assert(angles.z == 180, "180° z angle")
     pos2 = mtscad.matrix_to_pos(mtscad.multiply_matrix(m, mtscad.pos_to_matrix(pos)))
     assert(vector.equals(pos2, {x=0,y=0,z=10}), "90°X + 180°Y rotation")
+
+    -- rotate x 90°, y -90°
+    pos = {x=0, y=10, z=0}
+    m = mtscad.rotation_matrix_x(0)
+    m = mtscad.multiply_matrix(m, mtscad.rotation_matrix_x(90), mtscad.pos_to_matrix(pos))
+    m = mtscad.multiply_matrix(m, mtscad.rotation_matrix_z(90), m)
+    angles = mtscad.get_matrix_angles(m)
+    assert(angles.x == 180, "x angle")
+    assert(angles.y == -90, "y angle")
+    assert(angles.z == -90, "z angle")
+    pos2 = mtscad.matrix_to_pos(mtscad.multiply_matrix(m, mtscad.pos_to_matrix(pos)))
+    assert(vector.equals(pos2, {x=-10,y=0,z=0}), "90°X + -90°Y rotation")
 
     callback()
 end
