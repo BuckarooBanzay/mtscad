@@ -13,7 +13,7 @@ function mtscad.create_context(opts)
 
     local self = {
         pos = opts.pos and vector.copy(opts.pos) or vector.zero(),
-        rotation = opts.rotation and vector.copy(opts.rotation) or vector.zero(),
+        rotation = opts.rotation or mtscad.rotation_matrix_x(0),
         nodefactory = opts.nodefactory,
         param2 = opts.param2 or 0,
         job_context = job_context

@@ -6,9 +6,8 @@ function mtscad.Context:translate(x, y, z)
         y = y or 0,
         z = z or 0
     }
-    -- transformed position
-    local tpos = mtscad.transform_pos(self.pos, vector.add(opos, self.pos), self.rotation)
     local ctx = self:clone()
-    ctx.pos = tpos
+    local m = mtscad.multiply_matrix(self.rotation, mtscad.pos_to_matrix(opos))
+    ctx.pos = vector.add(self.pos, mtscad.matrix_to_pos(m))
     return ctx
 end
