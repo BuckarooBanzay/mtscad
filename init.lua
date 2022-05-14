@@ -3,7 +3,8 @@ mtscad = {}
 
 local MP = minetest.get_modpath("mtscad")
 dofile(MP .. "/context/new.lua")
-dofile(MP .. "/context/basics.lua")
+dofile(MP .. "/context/with.lua")
+dofile(MP .. "/context/set_node.lua")
 dofile(MP .. "/context/execute.lua")
 dofile(MP .. "/context/translate.lua")
 dofile(MP .. "/context/rotate.lua")
