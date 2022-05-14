@@ -2,7 +2,7 @@
 local path = minetest.get_worldpath() .. "/mtscad"
 minetest.mkdir(path)
 
-local function require_mod(name)
+function mtscad.require_mod(name)
     if not minetest.get_modpath(name) then
         error("required mod not present: '" .. name .. "'")
     end
@@ -13,8 +13,6 @@ function mtscad.load_module(modulename)
         -- debug
         print = print,
         dump = dump,
-        -- module loading
-        load = mtscad.load_module,
         -- builtin / default
         math = math,
         ipairs = ipairs,
@@ -22,8 +20,11 @@ function mtscad.load_module(modulename)
             insert = table.insert
         },
         -- custom functions
-        merge_table = mtscad.merge,
-        require_mod = require_mod
+        mtscad = {
+            merge = mtscad.merge,
+            require_mod = mtscad.require_mod,
+            load_module = mtscad.load_module
+        }
     }
 
     local fn, err_msg = loadfile(path .. "/" .. modulename .. ".lua")
