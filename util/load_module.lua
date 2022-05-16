@@ -8,7 +8,17 @@ function mtscad.require_mod(name)
     end
 end
 
-function mtscad.load_module(modulename)
+function mtscad.load_module(modulepath)
+    local context_aware_load_module = function(name)
+        local index = string.find(modulepath, "/[^/]*$")
+        if index then
+            -- prepend current directory to import path
+            name = string.sub(modulepath, 1, index) .. name
+        end
+
+        return mtscad.load_module(name)
+    end
+
     local env = {
         -- debug
         print = print,
@@ -23,18 +33,19 @@ function mtscad.load_module(modulename)
         mtscad = {
             merge = mtscad.merge,
             require_mod = mtscad.require_mod,
-            load_module = mtscad.load_module
+            load_module = context_aware_load_module
         }
     }
 
-    local fn, err_msg = loadfile(path .. "/" .. modulename .. ".lua")
+    local fullpath = path .. "/" .. modulepath .. ".lua"
+    local fn, err_msg = loadfile(fullpath)
     if not fn or err_msg then
         error(err_msg)
     end
     local def = setfenv(fn, env)
 
     if not def then
-        error("Loading of '" .. modulename .. "' failed")
+        error("Loading of '" .. fullpath .. "' failed")
     end
 
     return def()
