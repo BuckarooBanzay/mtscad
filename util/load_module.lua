@@ -25,6 +25,7 @@ function mtscad.load_module(modulepath)
         dump = dump,
         -- builtin / default
         math = math,
+        vector = vector,
         ipairs = ipairs,
         assert = assert,
         table = {
