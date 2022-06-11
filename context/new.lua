@@ -16,7 +16,13 @@ function mtscad.create_context(opts)
         rotation = opts.rotation or mtscad.rotation_matrix_x(0),
         nodefactory = opts.nodefactory,
         param2 = opts.param2 or 0,
-        job_context = job_context
+        job_context = job_context,
+        -- global session info
+        session = opts.session or {
+            -- max/min extents
+            max = vector.copy(opts.pos),
+            min = vector.copy(opts.pos)
+        }
     }
     return setmetatable(self, Context_mt)
 end

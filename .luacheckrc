@@ -1,6 +1,7 @@
 globals = {
 	"mtscad",
 	"minetest",
+	"worldedit",
 	"vector" -- for test-env patching
 }
 

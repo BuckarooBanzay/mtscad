@@ -5,6 +5,7 @@ function mtscad.Context:set_node()
     end
     local tnode = mtscad.transform_node(node, self.rotation)
     minetest.set_node(self.pos, tnode)
+    mtscad.extents(self.session.min, self.session.max, self.pos)
     return self
 end
 
