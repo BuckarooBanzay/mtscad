@@ -8,10 +8,10 @@ return function(callback)
     if err_msg then
       error(err_msg)
     end
-    assert(minetest.get_node(vector.add(origin, {x=5+2,y=5,z=5})).name == "default:mese")
-    assert(minetest.get_node(vector.add(origin, {x=5+2,y=5,z=5})).param2 == 3)
-    assert(minetest.get_node(vector.add(origin, {x=5-2,y=5,z=5})).name == "default:mese")
-    assert(minetest.get_node(vector.add(origin, {x=5-2,y=5,z=5})).param2 == 1)
+    assert(minetest.get_node(vector.add(origin, {x=5+2,y=5,z=5+1})).name == "default:mese")
+    assert(minetest.get_node(vector.add(origin, {x=5+2,y=5,z=5+1})).param2 == 3)
+    assert(minetest.get_node(vector.add(origin, {x=5-2,y=5,z=5+1})).name == "default:mese")
+    assert(minetest.get_node(vector.add(origin, {x=5-2,y=5,z=5+1})).param2 == 1)
     callback()
   end)
 
