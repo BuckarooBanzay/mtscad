@@ -7,7 +7,14 @@ function mtscad.Context:translate(x, y, z)
         z = z or 0
     }
     local ctx = self:clone()
+
+    -- rotate
     local m = mtscad.multiply_matrix(self.rotation, mtscad.pos_to_matrix(opos))
-    ctx.pos = vector.add(self.pos, mtscad.matrix_to_pos(m))
+    local rel_pos = mtscad.matrix_to_pos(m)
+
+    -- apply pos factor (mirror)
+    rel_pos = vector.multiply(self.pos_factor, rel_pos)
+
+    ctx.pos = vector.add(self.pos, rel_pos)
     return ctx
 end
