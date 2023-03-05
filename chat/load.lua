@@ -1,11 +1,31 @@
 
 local has_worldedit = minetest.get_modpath("worldedit")
 
+-- playername -> opts
+local player_opts = {}
+
+minetest.register_chatcommand("scad_opts", {
+    func = function(name, params)
+        if params ~= "" then
+            local opts = minetest.deserialize("return " .. params)
+            if opts then
+                player_opts[name] = opts
+                return true, "Options set"
+            else
+                return true, "Invalid options"
+            end
+        else
+            player_opts[name] = nil
+            return true, "Options cleared"
+        end
+    end
+})
+
 minetest.register_chatcommand("scad", {
     func = function(name, modulename)
         local origin = mtscad.get_origin(name)
         if not origin then
-            return false, "Set your origin point first with /origin"
+            return false, "Set your origin point first with /scad_origin"
         end
         local start = minetest.get_us_time()
         local ctx = mtscad.create_context({ pos = origin })
@@ -17,14 +37,12 @@ minetest.register_chatcommand("scad", {
         if not success then
             return false, "Load failed with '" .. exec_err .. "'"
         end
-        if not fn then
+        if type(fn) ~= "function" then
             return false, "No script loaded"
         end
 
         success, exec_err = pcall(function()
-            if type(fn) == "function" then
-                fn(ctx)
-            end
+            fn(ctx, player_opts[name])
         end)
 
         if not success then
