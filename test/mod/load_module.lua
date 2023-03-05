@@ -10,7 +10,8 @@ mtt.register("load_module", function(callback)
     callback()
   end)
 
-  local mod = mtscad.load_module("load_module")
+  local mod, other_val = mtscad.load_module("load_module")
+  assert(other_val and other_val.success)
   mod(ctx)
 
   -- process async jobs
