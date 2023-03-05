@@ -1,5 +1,5 @@
 
-return function(callback)
+mtt.register("util_merge", function(callback)
     local t1 = { x=1 }
     local t2 = mtscad.merge(t1)
     assert(t2.x == 1)
@@ -18,4 +18,4 @@ return function(callback)
     assert(t2.y == 2)
 
     callback()
-end
+end)

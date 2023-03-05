@@ -1,8 +1,6 @@
 local origin = ...
 
-return function(callback)
-  print("translate_rotate")
-
+mtt.register("translate_rotate", function(callback)
   local ctx = mtscad.create_context({ pos = origin })
   ctx.job_context.register_on_done(function(_, err_msg)
     if err_msg then
@@ -18,4 +16,4 @@ return function(callback)
 
   -- process async jobs
   ctx.job_context.process()
-end
+end)

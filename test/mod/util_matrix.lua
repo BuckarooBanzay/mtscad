@@ -1,7 +1,5 @@
 
-return function(callback)
-    print("util_matrix")
-
+mtt.register("util_matrix", function(callback)
     -- matrix to pos and back
     local pos = { x=10, y=-10, z=20 }
     local m = mtscad.pos_to_matrix(pos)
@@ -113,4 +111,4 @@ return function(callback)
     assert(vector.equals(pos2, {x=-10,y=0,z=0}), "90°X + -90°Y rotation")
 
     callback()
-end
+end)

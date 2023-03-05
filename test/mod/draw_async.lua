@@ -1,7 +1,6 @@
 local origin = ...
 
-return function(callback)
-  print("draw_async")
+mtt.register("draw_async", function(callback)
 
   local ctx = mtscad.create_context({ pos = origin })
   ctx.job_context.register_on_done(function(_, err_msg)
@@ -19,4 +18,4 @@ return function(callback)
 
   -- process async jobs
   ctx.job_context.process()
-end
+end)

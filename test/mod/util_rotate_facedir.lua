@@ -1,5 +1,5 @@
 
-return function(callback)
+mtt.register("util_rotate_facedir", function(callback)
     -- y axis
     assert(mtscad.rotate_facedir(1, "y+", 0) == 3) -- 90° ccw
     assert(mtscad.rotate_facedir(2, "y+", 0) == 2) -- 180° ccw
@@ -19,4 +19,4 @@ return function(callback)
     assert(mtscad.rotate_facedir(4, "z+", 0) == 0) -- 360° ccw
 
     callback()
-end
+end)

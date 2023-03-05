@@ -1,7 +1,5 @@
 
-return function(callback)
-    print("util_extents")
-
+mtt.register("util_extents", function(callback)
     local min = {x=0, y=0, z=0}
     local max = {x=10, y=10, z=10}
 
@@ -11,4 +9,4 @@ return function(callback)
     assert(max.z == 10)
 
     callback()
-end
+end)

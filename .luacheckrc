@@ -19,5 +19,5 @@ read_globals = {
 	"worldedit",
 
 	-- testing
-	"mineunit", "sourcefile", "assert", "describe", "it"
+	"mtt"
 }
