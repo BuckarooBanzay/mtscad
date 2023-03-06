@@ -1,4 +1,6 @@
 
+local has_worldedit = minetest.get_modpath("worldedit")
+
 local origin_map = {}
 local hud_id_map = {}
 
@@ -33,16 +35,25 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 function mtscad.set_origin(playername, pos)
-    origin_map[playername] = pos
-    local player = minetest.get_player_by_name(playername)
-    if player then
-        if not pos then
-            origin_map[playername] = vector.round(player:get_pos())
+    if has_worldedit then
+        worldedit.pos1[playername] = pos
+        worldedit.mark_pos1(playername)
+    else
+        origin_map[playername] = pos
+        local player = minetest.get_player_by_name(playername)
+        if player then
+            if not pos then
+                origin_map[playername] = vector.round(player:get_pos())
+            end
+            display_origin(player)
         end
-        display_origin(player)
     end
 end
 
 function mtscad.get_origin(playername)
-    return origin_map[playername]
+    if has_worldedit then
+        return worldedit.pos1[playername]
+    else
+        return origin_map[playername]
+    end
 end
