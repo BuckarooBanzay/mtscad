@@ -15,6 +15,9 @@ function mtscad.Context:translate(x, y, z)
     -- apply pos factor (mirror)
     rel_pos = vector.multiply(self.pos_factor, rel_pos)
 
+    -- apply scale factor
+    rel_pos = vector.multiply(rel_pos, self.scale_pos)
+
     ctx.pos = vector.add(self.pos, rel_pos)
     return ctx
 end
