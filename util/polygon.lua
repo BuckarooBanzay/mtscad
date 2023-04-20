@@ -6,7 +6,7 @@ function mtscad.get_polygon_crossings(points, y)
     local crossings = {}
 
     local prev_p = points[#points]
-    for i, curr_p in ipairs(points) do
+    for _, curr_p in ipairs(points) do
         if (curr_p[2] < y and prev_p[2] >= y) or
             (prev_p[2] < y and curr_p[2] >= y) then
             -- crosses the y-line
