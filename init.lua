@@ -23,6 +23,7 @@ dofile(MP .. "/context/mirror.lua")
 dofile(MP .. "/util/extents.lua")
 dofile(MP .. "/util/matrix.lua")
 dofile(MP .. "/util/origin.lua")
+dofile(MP .. "/util/polygon.lua")
 dofile(MP .. "/util/rotate_facedir.lua")
 dofile(MP .. "/util/transform.lua")
 dofile(MP .. "/util/merge.lua")
@@ -37,6 +38,7 @@ if minetest.get_modpath("mtt") and mtt.enabled then
     dofile(MP .. "/util/matrix.spec.lua")
     dofile(MP .. "/util/rotate_facedir.spec.lua")
     dofile(MP .. "/util/merge.spec.lua")
+    dofile(MP .. "/util/polygon.spec.lua")
 
     -- test context
     mtt.emerge_area({x=0, y=0, z=0}, {x=48, y=48, z=48})
