@@ -2,7 +2,7 @@ local function fn(ctx)
     ctx
     :translate(2, 0, 1)
     :with("default:mese")
-    :slope(1, 1, 0)
+    :param2(3)
     :set_node()
 end
 

@@ -17,7 +17,7 @@ function mtscad.create_context(opts)
         scale_pos = opts.scale_pos or vector.new(1,1,1),
         rotation = opts.rotation or mtscad.rotation_matrix_x(0),
         nodefactory = opts.nodefactory,
-        param2 = opts.param2 or 0,
+        node_param2 = opts.node_param2 or 0,
         job_context = job_context,
         -- global session info
         session = opts.session or {

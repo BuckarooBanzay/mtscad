@@ -32,7 +32,7 @@ end
 
 function mtscad.Context:with(def)
     local ctx = self:clone()
-    ctx.nodefactory = create_nodefactory(def, self.param2)
+    ctx.nodefactory = create_nodefactory(def, self.node_param2)
     return ctx
 end
 
