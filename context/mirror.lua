@@ -3,7 +3,7 @@ local function apply_axis(ctx, axis, v)
     assert(v <= 1)
     if v == 1 then
         -- invert axis
-        ctx.pos_factor[axis] = ctx.pos_factor[axis] * -1
+        ctx.mirror_pos[axis] = ctx.mirror_pos[axis] * -1
     end
 end
 

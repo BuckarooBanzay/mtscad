@@ -7,10 +7,10 @@ function mtscad.Context:set_node()
 
     -- rotate param2
     local tnode = mtscad.transform_node(node, self.rotation)
-    if self.pos_factor.x == -1 or self.pos_factor.z == -1 then
+    if self.mirror_pos.x == -1 or self.mirror_pos.z == -1 then
         tnode.param2 = mtscad.rotate_facedir(2, "y-", tnode.param2)
     end
-    if self.pos_factor.y == -1 then
+    if self.mirror_pos.y == -1 then
         tnode.param2 = mtscad.rotate_facedir(2, "x-", tnode.param2)
     end
 

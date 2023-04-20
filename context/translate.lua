@@ -12,8 +12,8 @@ function mtscad.Context:translate(x, y, z)
     local m = mtscad.multiply_matrix(self.rotation, mtscad.pos_to_matrix(opos))
     local rel_pos = mtscad.matrix_to_pos(m)
 
-    -- apply pos factor (mirror)
-    rel_pos = vector.multiply(self.pos_factor, rel_pos)
+    -- apply mirror factor
+    rel_pos = vector.multiply(self.mirror_pos, rel_pos)
 
     -- apply scale factor
     rel_pos = vector.multiply(rel_pos, self.scale_pos)
