@@ -2,6 +2,7 @@
 mtscad = {}
 
 local MP = minetest.get_modpath("mtscad")
+-- context fn
 dofile(MP .. "/context/new.lua")
 dofile(MP .. "/context/with.lua")
 dofile(MP .. "/context/set_node.lua")
@@ -18,6 +19,8 @@ dofile(MP .. "/context/pattern.lua")
 dofile(MP .. "/context/char.lua")
 dofile(MP .. "/context/text.lua")
 dofile(MP .. "/context/mirror.lua")
+
+-- utilities
 dofile(MP .. "/util/extents.lua")
 dofile(MP .. "/util/matrix.lua")
 dofile(MP .. "/util/origin.lua")
@@ -27,8 +30,13 @@ dofile(MP .. "/util/transform.lua")
 dofile(MP .. "/util/merge.lua")
 dofile(MP .. "/util/load_module.lua")
 dofile(MP .. "/util/job_context.lua")
+
+-- chatcommands
 dofile(MP .. "/chat/load.lua")
 dofile(MP .. "/chat/origin.lua")
+
+-- charsets
+dofile(MP .. "/charsets/8x8.lua")
 
 if minetest.get_modpath("mtt") and mtt.enabled then
     -- test utils
