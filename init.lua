@@ -46,4 +46,4 @@ if minetest.get_modpath("mtt") and mtt.enabled then
     loadfile(MP .. "/spec/draw_line.spec.lua")({x=0, y=0, z=0})
     loadfile(MP .. "/spec/translate_rotate.spec.lua")({x=20, y=0, z=20})
     loadfile(MP .. "/spec/mirror.spec.lua")({x=-20, y=0, z=20})
-    end
+end
