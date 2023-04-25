@@ -17,7 +17,7 @@ function mtscad.get_polygon_crossings(points, y)
             if y_factor == 0 then
                 table.insert(crossings, curr_p[1])
             else
-                table.insert(crossings, x_spread * y_factor)
+                table.insert(crossings, x_spread * (1-y_factor))
             end
         end
 
