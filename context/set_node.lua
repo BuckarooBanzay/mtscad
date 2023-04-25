@@ -14,14 +14,7 @@ function mtscad.Context:set_node()
         tnode.param2 = mtscad.rotate_facedir(2, "x-", tnode.param2)
     end
 
-    -- scale region
-    if self.scale_pos.x > 1 or self.scale_pos.y > 1 or self.scale_pos.z > 1 then
-        self
-        :reset_scale()
-        :cube(self.scale_pos.x, self.scale_pos.y, self.scale_pos.z)
-    else
-        minetest.set_node(self.pos, tnode)
-    end
+    minetest.set_node(self.pos, tnode)
 
     -- update extents
     mtscad.extents(self.session.min, self.session.max, self.pos)
