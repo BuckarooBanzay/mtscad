@@ -15,8 +15,7 @@ function mtscad.create_context(opts)
         pos = opts.pos and vector.copy(opts.pos) or vector.zero(),
         mirror_pos = opts.mirror_pos and vector.copy(opts.mirror_pos) or vector.new(1,1,1),
         rotation = opts.rotation or mtscad.rotation_matrix_x(0),
-        nodefactory = opts.nodefactory,
-        node_param2 = opts.node_param2 or 0,
+        node_spec = opts.node_spec or { name = "air" },
         job_context = job_context,
         -- global session info
         session = opts.session or {

@@ -1,8 +1,7 @@
 local function fn(ctx)
     ctx
     :translate(2, 0, 1)
-    :with("default:mese")
-    :param2(3)
+    :with({ name="default:mese", param2=3 })
     :set_node()
 end
 

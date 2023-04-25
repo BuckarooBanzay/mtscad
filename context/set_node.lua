@@ -1,9 +1,16 @@
 function mtscad.Context:set_node()
-    -- get node name and param2
-    local node = self.nodefactory and self.nodefactory(self.param2) or { name="air" }
-    if not node.node_param2 and self.node_param2 then
-        node.param2 = self.node_param2
+    local node = { name="air" }
+
+    if type(self.node_spec) == "string" then
+        node = { name=self.node_spec }
+    elseif type(self.node_spec) == "table" then
+        node = self.node_spec
+    elseif type(self.node_spec) == "function" then
+        node = self.node_spec()
     end
+
+    -- default param2
+    node.param2 = node.param2 or 0
 
     -- rotate param2
     local tnode = mtscad.transform_node(node, self.rotation)
