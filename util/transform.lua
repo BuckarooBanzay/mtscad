@@ -11,7 +11,6 @@ local function transform_node_axis(node, axis, angle)
         return 0
     end
     if angle % 90 ~= 0 then
-        print(angle)
         error("Only 90 degree increments are supported!")
     end
 
