@@ -1,6 +1,7 @@
 
 -- returns all crossings for a polygon on the given y-coordinate
 -- docs: http://alienryderflex.com/polygon/
+-- http://alienryderflex.com/polygon_fill/
 function mtscad.get_polygon_crossings(points, y)
     -- x coords for crossings
     local crossings = {}
@@ -9,16 +10,14 @@ function mtscad.get_polygon_crossings(points, y)
     for _, curr_p in ipairs(points) do
         if (curr_p[2] < y and prev_p[2] >= y) or
             (prev_p[2] < y and curr_p[2] >= y) then
-            -- crosses the y-line
-            local x_spread = curr_p[1] - prev_p[1]
-            local y_spread = math.abs(curr_p[2] - prev_p[2])
-            local y_factor = (y - math.min(prev_p[2], curr_p[2])) / y_spread
+            -- x and y delta
+            local xd = curr_p[1] - prev_p[1]
+            local yd = curr_p[2] - prev_p[2]
+            local d = xd / yd
+            local yoffset = y - prev_p[2]
+            local x = (yoffset * d) + prev_p[1]
 
-            if y_factor == 0 then
-                table.insert(crossings, curr_p[1])
-            else
-                table.insert(crossings, prev_p[1] + (x_spread * (1-y_factor)))
-            end
+            table.insert(crossings, x)
         end
 
         prev_p = curr_p

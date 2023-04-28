@@ -41,7 +41,7 @@ mtt.register("get_polygon_crossings_2", function(callback)
 
     crossings = mtscad.get_polygon_crossings(points, 1)
     assert(#crossings == 2)
-    --assert(crossings[1] == 4) TODO
+    assert(crossings[1] == 4)
     assert(crossings[2] == 11)
 
     callback()
