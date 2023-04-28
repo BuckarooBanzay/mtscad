@@ -12,14 +12,9 @@ function mtscad.Context:polygon(points, fill)
         max_x = math.max(max_x, p2[1])
         max_y = math.max(max_y, p2[2])
 
-        local p1_pos = vector.new(p1[1], p1[2], 0)
-        local p2_pos = vector.new(p2[1], p2[2], 0)
-
-        local rel_p2 = vector.subtract(p2_pos, p1_pos)
-
         self
         :translate(p1[1], p1[2], 0)
-        :line(rel_p2.x, rel_p2.y, 0)
+        :line(p2[1]-p1[1], p2[2]-p1[2], 0)
     end
 
     if fill and max_y > min_y+1 and max_x > min_x+1 then
