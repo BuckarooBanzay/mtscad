@@ -32,7 +32,7 @@ function mtscad.Context:polygon(points, fill)
 
                 self
                 :translate(x1, y, 0)
-                :line(x2-x1, y, 0)
+                :line(x2-x1, 0, 0)
             end
         end
     end
